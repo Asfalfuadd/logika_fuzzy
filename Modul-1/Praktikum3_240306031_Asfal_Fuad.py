@@ -16,28 +16,28 @@ print("Koneksi database berhasil!")
 # ── Fungsi keanggotaan (berdasarkan Tugas 1 PDF) ───────────────
 
 # 1. Bayi / Anak Usia Dini: (0, 2.5, 5)
-def fungsi_bayi_naik(x):    return x / 2.5          # 0 <= x <= 2.5
-def fungsi_bayi_turun(x):   return (5 - x) / 2.5    # 2.5 <= x <= 5
+def fungsi_bayi_naik(x):    return x / 2.5         
+def fungsi_bayi_turun(x):   return (5 - x) / 2.5   
 
 # 2. Anak-anak: (5, 8.5, 11)
-def fungsi_anak_naik(x):    return (x - 5) / 3.5    # 5 <= x <= 8.5
-def fungsi_anak_turun(x):   return (11 - x) / 2.5   # 8.5 <= x <= 11
+def fungsi_anak_naik(x):    return (x - 5) / 3.5   
+def fungsi_anak_turun(x):   return (11 - x) / 2.5   
 
 # 3. Remaja: (10, 14.5, 19)
-def fungsi_remaja_naik(x):  return (x - 10) / 4.5   # 10 <= x <= 14.5
-def fungsi_remaja_turun(x): return (19 - x) / 4.5   # 14.5 <= x <= 19
+def fungsi_remaja_naik(x):  return (x - 10) / 4.5   
+def fungsi_remaja_turun(x): return (19 - x) / 4.5   
 
 # 4. Pemuda: (15, 19.5, 24)
-def fungsi_pemuda_naik(x):  return (x - 15) / 4.5   # 15 <= x <= 19.5
-def fungsi_pemuda_turun(x): return (24 - x) / 4.5   # 19.5 <= x <= 24
+def fungsi_pemuda_naik(x):  return (x - 15) / 4.5   
+def fungsi_pemuda_turun(x): return (24 - x) / 4.5   
 
 # 5. Dewasa: (20, 42.5, 65)
-def fungsi_dewasa_naik(x):  return (x - 20) / 22.5  # 20 <= x <= 42.5
-def fungsi_dewasa_turun(x): return (65 - x) / 22.5  # 42.5 <= x <= 65
+def fungsi_dewasa_naik(x):  return (x - 20) / 22.5  
+def fungsi_dewasa_turun(x): return (65 - x) / 22.5  
 
 # 6. Lanjut Usia (Lansia): (60, 70, 80)
-def fungsi_lansia_naik(x):  return (x - 60) / 10    # 60 <= x <= 70
-def fungsi_lansia_turun(x): return (80 - x) / 10    # 70 <= x <= 80
+def fungsi_lansia_naik(x):  return (x - 60) / 10    
+def fungsi_lansia_turun(x): return (80 - x) / 10   
 
 # ── Mapping nama fungsi database ke fungsi Python ─────────────
 
