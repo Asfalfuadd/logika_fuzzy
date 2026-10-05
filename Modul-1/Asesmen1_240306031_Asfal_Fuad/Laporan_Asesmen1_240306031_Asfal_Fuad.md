@@ -543,3 +543,27 @@ Merancang matriks aturan inferensi IF-THEN sebanyak $3 \times 3 = 9$ aturan berb
 - Mengonversi daerah agregasi himpunan fuzzy menjadi nilai skalar konkret (skor prioritas $0 - 100$) menggunakan metode **Centroid (Center of Gravity — COG)**:
   $$z^* = \frac{\int z \cdot \mu_{\text{agregat}}(z) \, dz}{\int \mu_{\text{agregat}}(z) \, dz} \approx \frac{\sum_{i=1}^n z_i \cdot \mu_{\text{agregat}}(z_i)}{\sum_{i=1}^n \mu_{\text{agregat}}(z_i)}$$
 - Nilai $z^*$ inilah yang akan menjadi skor numerik final penentu antrean tiket perbaikan fasilitas di lingkungan Smart Campus.
+
+---
+
+## KESIMPULAN CAPAIAN PEMODELAN FUZZY (MODUL 1)
+
+Pelaksanaan proyek pemodelan fuzzy pada Modul 1 (Praktikum 1 s.d. 5) berhasil meletakkan fondasi matematis dan komputasi yang kokoh untuk sistem pendukung keputusan perbaikan fasilitas kampus. Kesimpulan utama dari hasil pemodelan ini mencakup:
+
+### 1.1 Keberhasilan Formulasi Masalah Nyata
+1. **Solusi untuk Ambiguitas Dunia Nyata:** Permasalahan antrean perbaikan sarana dan prasarana kampus yang selama ini bergantung pada batas tegas (*crisp*) berhasil dimodelkan ke dalam himpunan fuzzy. Logika fuzzy terbukti mampu menangani ketidakpastian persepsi pelapor dan kondisi fisik fasilitas secara adil dan bertahap.
+2. **Eliminasi Efek Tebing (*Cliff Effect*):** Sistem tidak lagi mengalami pemotongan kaku pada perbatasan nilai (misalnya perbedaan antara kerusakan $39\%$ dan $41\%$), melainkan memetakan nilai konkret ke dalam derajat keanggotaan parsial $\mu \in [0, 1]$.
+
+### 1.2 Kesesuaian Standar Desain Sistem
+1. **Variabel dan Domain:** Telah didefinisikan 2 variabel input (*Tingkat Kerusakan* $[\%]$ dan *Jumlah Laporan* $[\text{tiket}]$) serta 1 variabel output (*Prioritas Perbaikan* $[\text{skor}]$) dengan semesta pembicaraan seragam $U = [0, 100]$.
+2. **Kombinasi Geometri Kurva:** Pemodelan memadukan kurva **trapesium** untuk wilayah ekstrem (bahu kiri *Rendah/Sedikit* dan bahu kanan *Tinggi/Banyak*) serta kurva **segitiga simetris** untuk wilayah transisi tengah (*Sedang*).
+3. **Integritas *Overlapping* (Tanpa Celah):** Seluruh kurva bersebelahan saling tumpang tindih (*overlap*) selebar $10-20$ unit tanpa celah (*gapless*), sehingga dijamin memenuhi kondisi kelengkapan:
+   $$\sum_{i=1}^n \mu_{A_i}(x) > 0, \quad \forall x \in U$$
+
+### 1.3 Keberhasilan Implementasi dan Fuzzifikasi Mandiri
+1. **Implementasi Python Murni:** Algoritma fungsi keanggotaan dan fuzzifikasi dibangun secara mandiri menggunakan Python dan NumPy tanpa ketergantungan pada *black-box library*, memastikan keterbukaan logika kalkulasi.
+2. **Validasi Pengujian 5 Skenario:** Pengujian pada nilai ekstrem bawah ($0\%$), batas transisi bawah ($35\%$), nominal tengah ($50\%$), batas transisi atas ($65\%$), dan ekstrem atas ($100\%$) membuktikan derajat keanggotaan yang dihitung program identik dengan penurunan matematis manual.
+
+Dengan hasil ini, tahap **Fuzzifikasi (Tahap 1)** dinyatakan selesai, terverifikasi, dan siap dihubungkan ke tahap penalaran aturan pada Modul 2.
+
+---
