@@ -201,36 +201,26 @@ import io
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Konfigurasi output UTF-8 untuk konsol Windows
 if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# ==============================================================================
-# SISTEM PENENTUAN PRIORITAS PERBAIKAN FASILITAS KAMPUS
-# ASESMEN MODUL 1: PEMODELAN FUZZY & FUZZIFIKASI
-# Identitas: Asfal Fuad (NIM: 240306031) - Teknologi Informasi UIN Mataram
-# ==============================================================================
-
-# ------------------------------------------------------------------------------
 # 1. FUNGSI KEANGGOTAAN DASAR (MEMBERSHIP FUNCTIONS)
-# ------------------------------------------------------------------------------
 def triangular(x, a, b, c):
     """
     Fungsi keanggotaan kurva segitiga dengan parameter [a, b, c].
     a = batas kiri, b = puncak (derajat 1.0), c = batas kanan.
-    Mendukung input skalar maupun array NumPy.
     """
     x = np.asarray(x, dtype=float)
     y = np.zeros_like(x)
     
-    # Area lereng naik: a < x <= b
+    # Area naik: a < x <= b
     mask_up = (x > a) & (x <= b)
     if b > a:
         y[mask_up] = (x[mask_up] - a) / (b - a)
     elif a == b:
         y[mask_up] = 1.0
         
-    # Area lereng turun: b < x < c
+    # Area turun: b < x < c
     mask_down = (x > b) & (x < c)
     if c > b:
         y[mask_down] = (c - x[mask_down]) / (c - b)
@@ -246,7 +236,7 @@ def trapezoidal(x, a, b, c, d):
     Fungsi keanggotaan kurva trapesium dengan parameter [a, b, c, d].
     a = batas kiri bawah, b = batas kiri atas,
     c = batas kanan atas, d = batas kanan bawah.
-    Mendukung bentuk bahu kiri (a == b) dan bahu kanan (c == d).
+    Mendukung bahu kiri (a == b) dan bahu kanan (c == d).
     """
     x = np.asarray(x, dtype=float)
     y = np.zeros_like(x)
@@ -272,9 +262,7 @@ def trapezoidal(x, a, b, c, d):
     return float(y) if y.ndim == 0 else y
 
 
-# ------------------------------------------------------------------------------
-# 2. DEFINISI BASIS PENGETAHUAN & STRUKTUR VARIABEL FUZZY
-# ------------------------------------------------------------------------------
+# 2. DEFINISI BASIS PENGETAHUAN & VARIABEL LINGUISTIK
 variabel_fuzzy = {
     "Tingkat Kerusakan": {
         "tipe_var": "input",
@@ -310,10 +298,7 @@ variabel_fuzzy = {
 
 
 def hitung_derajat(x, tipe, param):
-    """
-    Fungsi pemanggil modular untuk mengevaluasi derajat keanggotaan
-    berdasarkan tipe fungsi (segitiga atau trapesium).
-    """
+    """Menghitung derajat keanggotaan berdasarkan jenis kurva."""
     if tipe == "segitiga":
         return triangular(x, *param)
     elif tipe == "trapesium":
@@ -322,13 +307,10 @@ def hitung_derajat(x, tipe, param):
         raise ValueError(f"Tipe kurva '{tipe}' tidak dikenali.")
 
 
-# ------------------------------------------------------------------------------
 # 3. FUNGSI FUZZIFIKASI DATA INPUT
-# ------------------------------------------------------------------------------
 def fuzzifikasi(input_dict):
     """
-    Menerima kamus input bernilai tegas (crisp) dan menghasilkan
-    kamus derajat keanggotaan untuk seluruh label linguistik tiap variabel.
+    Menerima kamus input tegas (crisp) dan mengembalikan derajat keanggotaan.
     Contoh input: {"kerusakan": 35.0, "laporan": 35.0}
     """
     hasil = {}
@@ -350,13 +332,10 @@ def fuzzifikasi(input_dict):
     return hasil
 
 
-# ------------------------------------------------------------------------------
 # 4. FUNGSI VISUALISASI GRAFIK FUNGSI KEANGGOTAAN
-# ------------------------------------------------------------------------------
 def plot_variabel(nama_variabel, output_filename):
     """
-    Menghasilkan grafik visual kurva fungsi keanggotaan dengan visual elegan,
-    area shaded under curve, dan menyimpannya ke berkas gambar PNG 300 DPI.
+    Menghasilkan dan menyimpan visualisasi kurva fungsi keanggotaan ke file gambar PNG.
     """
     var_cfg = variabel_fuzzy[nama_variabel]
     d_min, d_max = var_cfg["domain"]
@@ -372,7 +351,7 @@ def plot_variabel(nama_variabel, output_filename):
         
     plt.title(f"Fungsi Keanggotaan Variabel: {nama_variabel}", fontsize=13, fontweight="bold", pad=12)
     plt.xlabel(f"{nama_variabel} [{var_cfg['satuan']}]", fontsize=11, labelpad=8)
-    plt.ylabel("Derajat Keanggotaan (\u03bc)", fontsize=11, labelpad=8)
+    plt.ylabel("Derajat Keanggotaan (μ)", fontsize=11, labelpad=8)
     plt.xlim(d_min, d_max)
     plt.ylim(-0.05, 1.05)
     plt.axhline(0, color="gray", linewidth=0.8, linestyle="--")
@@ -385,9 +364,7 @@ def plot_variabel(nama_variabel, output_filename):
     print(f"[*] Grafik berhasil disimpan: {output_filename}")
 
 
-# ------------------------------------------------------------------------------
 # 5. PENGUJIAN 5 SKENARIO KASUS NYATA
-# ------------------------------------------------------------------------------
 def run_pengujian_skenario():
     skenario_list = [
         {
@@ -435,23 +412,22 @@ def run_pengujian_skenario():
         hasil = fuzzifikasi({"kerusakan": sk["kerusakan"], "laporan": sk["laporan"]})
         print(f"\n[{sk['nama']}] - {sk['kondisi']}")
         print(f"  Input: Kerusakan = {sk['kerusakan']}% | Laporan = {sk['laporan']} tiket")
-        print(f"  \u03bc_Kerusakan -> Rendah: {hasil['Tingkat Kerusakan']['Rendah']:.2f}, Sedang: {hasil['Tingkat Kerusakan']['Sedang']:.2f}, Tinggi: {hasil['Tingkat Kerusakan']['Tinggi']:.2f}")
-        print(f"  \u03bc_Laporan   -> Sedikit: {hasil['Jumlah Laporan']['Sedikit']:.2f}, Sedang: {hasil['Jumlah Laporan']['Sedang']:.2f}, Banyak: {hasil['Jumlah Laporan']['Banyak']:.2f}")
+        print(f"  μ_Kerusakan -> Rendah: {hasil['Tingkat Kerusakan']['Rendah']:.2f}, Sedang: {hasil['Tingkat Kerusakan']['Sedang']:.2f}, Tinggi: {hasil['Tingkat Kerusakan']['Tinggi']:.2f}")
+        print(f"  μ_Laporan   -> Sedikit: {hasil['Jumlah Laporan']['Sedikit']:.2f}, Sedang: {hasil['Jumlah Laporan']['Sedang']:.2f}, Banyak: {hasil['Jumlah Laporan']['Banyak']:.2f}")
 
 
-# ------------------------------------------------------------------------------
 # 6. EKSEKUSI UTAMA
-# ------------------------------------------------------------------------------
 if __name__ == "__main__":
     print("Menjalankan pemodelan fuzzy dan visualisasi kurva...")
     
-    # 1. Bangun berkas grafik kurva fungsi keanggotaan
+    # Buat grafik visualisasi
     plot_variabel("Tingkat Kerusakan", "grafik_tingkat_kerusakan.png")
     plot_variabel("Jumlah Laporan", "grafik_jumlah_laporan.png")
     plot_variabel("Prioritas Perbaikan", "grafik_prioritas_perbaikan.png")
     
-    # 2. Jalankan pengujian 5 skenario
+    # Jalankan pengujian
     run_pengujian_skenario()
+
 ```
 
 ---
