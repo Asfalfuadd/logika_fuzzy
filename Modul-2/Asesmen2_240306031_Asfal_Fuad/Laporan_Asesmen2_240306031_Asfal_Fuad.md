@@ -16,7 +16,7 @@
 | **Nama Proyek** | Sistem Penentuan Penetapan UKT Mahasiswa Berbasis Logika Fuzzy |
 | **Tahap** | Tahap 2: Fuzzy Decision System (kelanjutan Modul 1: Tahap Modeling) |
 | **Repository** | https://github.com/Asfalfuadd/logika_fuzzy |
-| **Berkas Program** | `asesmen2_ukt_decision_system.py` |
+| **Berkas Program** | `Praktikum10_240306031.py` |
 
 Proyek ini merupakan kelanjutan dari Modul 1 (Tahap 1: Modeling). Pada Modul 1 telah dibangun model variabel dan fungsi keanggotaan fuzzy untuk penentuan UKT. Pada asesmen ini, model tersebut dikembangkan menjadi **sistem pengambil keputusan (Fuzzy Decision System)** yang lengkap: mulai dari basis aturan, mesin inferensi, defuzzifikasi, visualisasi decision surface, hingga pengujian skenario kasus nyata.
 
